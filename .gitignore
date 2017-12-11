@@ -1,0 +1,5 @@
+.DS_Store
+.envrc
+.serverless
+node_modules/
+download/*.mp4

@@ -1,0 +1,3 @@
+# Rename this file to .envrc and replace your bucket name and ASK App ID.
+export BUCKET_NAME=REPLACE_HERE
+export APP_ID=
