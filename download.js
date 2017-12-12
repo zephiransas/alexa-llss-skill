@@ -7,10 +7,15 @@ exports.downloadHandler = (event, context, callback) => {
 
   return new Promise((resolve, reject) => {
     var serial;
+    var video_id;
+
     hibiki.get_program_info()
       .then((res) => {
-        let video_id = res.episode.video.id;
+        video_id = res.episode.video.id;
         serial = res.episode.name.match(/([\d\.]+)/)[0];
+        return s3.is_exist(serial);
+      })
+      .then((res) => {
         return hibiki.get_playlist_url(video_id);
       })
       .then((res) => {

@@ -18,14 +18,32 @@ s3.find = () => {
       if(err) {
         reject(err);
       } else {
-        let key = data.Contents.sort((a, b) => {
+        let value = data.Contents.sort((a, b) => {
           return (a.Key > b.Key) ? -1 : 1;
-        })[0].Key;
-        resolve(key);
+        })[0];
+
+        if(value == undefined) {
+          resolve(null);
+        } else {
+          resolve(value.Key);
+        }
       }
     });
   });
 };
+
+s3.is_exist = (serial) => {
+  return new Promise((resolve, reject) => {
+    s3.find().then((key) => {
+      let file = `llss${serial}.mp4`;
+      if(key == file) {
+        reject(`${file} is already exists`);
+      } else {
+        resolve();
+      }
+    })
+  });
+}
 
 s3.get_signed_url = (key) => {
   return new Promise((resolve, reject) => {
@@ -50,7 +68,7 @@ s3.put = (tmp_path, serial) => {
   return new Promise((resolve, reject) => {
     let s3 = new AWS.S3();
     let fs = require('fs');
-    
+
     let params = {
       Bucket: process.env.BUCKET_NAME,
       Key: `llss${serial}.mp4`,
