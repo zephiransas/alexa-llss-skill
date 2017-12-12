@@ -3,6 +3,7 @@
 let AWS = require('aws-sdk');
 
 let s3 = {};
+
 s3.find = () => {
   return new Promise((resolve, reject) => {
     let s3 = new AWS.S3();
@@ -44,5 +45,25 @@ s3.get_signed_url = (key) => {
     });
   });
 };
+
+s3.put = (tmp_path, serial) => {
+  return new Promise((resolve, reject) => {
+    let s3 = new AWS.S3();
+    let fs = require('fs');
+    
+    let params = {
+      Bucket: process.env.BUCKET_NAME,
+      Key: `llss${serial}.mp4`,
+      Body: fs.readFileSync(tmp_path)
+    };
+    s3.putObject(params, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+}
 
 module.exports = s3;

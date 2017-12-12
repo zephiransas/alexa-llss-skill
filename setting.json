@@ -1,0 +1,5 @@
+{
+  "headers": {"X-Requested-With": "XMLHttpRequest"},
+  "program_url": "https://vcms-api.hibiki-radio.jp/api/v1/programs/llss",
+  "play_check_url": "https://vcms-api.hibiki-radio.jp/api/v1/videos/play_check"
+}
