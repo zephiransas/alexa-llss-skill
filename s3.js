@@ -58,6 +58,7 @@ s3.get_signed_url = (key) => {
       if(err) {
         reject(err);
       } else {
+        console.log(url);
         resolve(url);
       }
     });
