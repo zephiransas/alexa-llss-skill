@@ -1,22 +1,23 @@
 'use strict';
 
+let s3 = require('./s3');
+
 let stateHandlers = {
     'LaunchRequest': function () {
         this.emit('PlayAudio');
     },
     'PlayAudio': function () {
-        // play the radio
-        let s3 = require('./s3');
-        let self = this;
-        s3.find()
-          .then((key) => { return s3.get_signed_url(key); })
-          .then((url) => {
-            self.response.speak(this.t('START_MSG')).audioPlayerPlay('REPLACE_ALL', url, url, null, 0);
-            self.emit(':responseReady');
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      // play the radio
+      let self = this;
+      s3.find()
+        .then((key) => { return s3.get_signed_url(key); })
+        .then((url) => {
+          self.response.speak(this.t('START_MSG')).audioPlayerPlay('REPLACE_ALL', url, 'llss', null, 0);
+          self.emit(':responseReady');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     'AMAZON.HelpIntent': function () {
         this.response.listen(this.t('HELP_MSG'));
@@ -50,7 +51,19 @@ let stateHandlers = {
       this.emit(':responseReady');
     },
 
-    'AMAZON.ResumeIntent':  function () { controller.play.call(this, this.t('RESUME_MSG')) },
+    'AMAZON.ResumeIntent':  function () {
+      // TODO: Play with offset...
+      let self = this;
+      s3.find()
+        .then((key) => { return s3.get_signed_url(key); })
+        .then((url) => {
+          self.response.speak(this.t('START_MSG')).audioPlayerPlay('REPLACE_ALL', url, 'llss', null, 0);
+          self.emit(':responseReady');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
 
     'AMAZON.LoopOnIntent':     function () { this.emit('AMAZON.StartOverIntent'); },
     'AMAZON.LoopOffIntent':    function () { this.emit('AMAZON.StartOverIntent');},

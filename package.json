@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "alexa-sdk": "^1.0.23",
-    "aws-sdk": "^2.167.0"
+    "aws-sdk": "^2.167.0",
+    "child_process": "^1.0.2",
+    "request": "^2.83.0"
   }
 }

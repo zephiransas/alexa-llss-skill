@@ -67,7 +67,11 @@ functions:
     handler: handler.handler
     events:
       - alexaSkill
-
+  download:
+    handler: download.downloadHandler
+    timeout: 300
+    events:
+      - schedule: cron(0 17 ? * TUE *)
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events

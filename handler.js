@@ -3,6 +3,7 @@
 let alexa = require('alexa-sdk');
 let constants = require('./constants');
 let stateHandler = require('./stateHandler');
+let audioEventHandlers = require('./audioEventHandlers');
 let languageStrings = require('./strings');
 
 exports.handler = (event, context, callback) => {
@@ -12,8 +13,8 @@ exports.handler = (event, context, callback) => {
   skill.resources = languageStrings;
   skill.debug     = constants.debug;
   skill.registerHandlers(
-      stateHandler
-      // audioEventHandlers
+      stateHandler,
+      audioEventHandlers
   );
 
   if (skill.debug) {
