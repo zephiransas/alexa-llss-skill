@@ -1,7 +1,6 @@
 'use strict';
 
 let alexa = require('alexa-sdk');
-let constants = require('./constants');
 let stateHandler = require('./stateHandler');
 let audioEventHandlers = require('./audioEventHandlers');
 let languageStrings = require('./strings');
@@ -9,9 +8,9 @@ let languageStrings = require('./strings');
 exports.handler = (event, context, callback) => {
   var skill = alexa.handler(event, context, callback);
 
-  skill.appId     = constants.appId;
+  skill.appId     = process.env.APP_ID;
   skill.resources = languageStrings;
-  skill.debug     = constants.debug;
+  skill.debug     = true;
   skill.registerHandlers(
       stateHandler,
       audioEventHandlers
