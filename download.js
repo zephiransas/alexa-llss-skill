@@ -29,7 +29,7 @@ exports.downloadHandler = (event, context, callback) => {
         process.env.PATH = process.env.PATH + ':/var/task/bin';
         console.log(process.env.PATH);
 
-        let cmd = `ffmpeg -y -i '${res.playlist_url}' -vcodec copy -acodec copy -bsf:a aac_adtstoasc -loglevel debug ${tmp_path}`;
+        let cmd = `ffmpeg -y -i '${res.playlist_url}' -vcodec copy -af volume=10dB -bsf:a aac_adtstoasc -loglevel debug ${tmp_path}`;
         execSync(cmd);
         return s3.put(tmp_path, serial);
       })
