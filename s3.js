@@ -101,4 +101,22 @@ s3.save_program_info = (body) => {
   });
 }
 
+s3.read_json = () => {
+  return new Promise((resolve, reject) => {
+    let s3 = new AWS.S3();
+    let params = {
+      Bucket: process.env.BUCKET_NAME,
+      Key: `program.json`
+    };
+
+    s3.getObject(params, (err, data) => {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(JSON.parse(data.Body.toString()));
+      }
+    });
+  })
+}
+
 module.exports = s3;
