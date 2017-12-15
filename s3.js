@@ -85,4 +85,38 @@ s3.put = (tmp_path, serial) => {
   });
 }
 
+s3.save_program_info = (body) => {
+  let s3 = new AWS.S3();
+  let params = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: `program.json`,
+    Body: body
+  };
+  s3.putObject(params, (err, data) => {
+    if(err) {
+      console.log("Fail to save program info: " + err);
+    } else {
+      console.log("save program info");
+    }
+  });
+}
+
+s3.read_json = () => {
+  return new Promise((resolve, reject) => {
+    let s3 = new AWS.S3();
+    let params = {
+      Bucket: process.env.BUCKET_NAME,
+      Key: `program.json`
+    };
+
+    s3.getObject(params, (err, data) => {
+      if(err) {
+        reject(err);
+      } else {
+        resolve(JSON.parse(data.Body.toString()));
+      }
+    });
+  })
+}
+
 module.exports = s3;

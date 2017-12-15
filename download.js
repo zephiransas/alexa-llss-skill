@@ -11,6 +11,7 @@ exports.downloadHandler = (event, context, callback) => {
 
     hibiki.get_program_info()
       .then((res) => {
+        s3.save_program_info(JSON.stringify(res));
         video_id = res.episode.video.id;
         serial = res.episode.name.match(/([\d\.]+)/)[0];
         return s3.is_exist(serial);

@@ -7,6 +7,8 @@ let stateHandlers = {
         this.emit('PlayAudio');
     },
     'PlayAudio': function () {
+      throw_card(this);
+
       // play the radio
       let self = this;
       s3.find()
@@ -82,3 +84,13 @@ let stateHandlers = {
 }
 
 module.exports = stateHandlers;
+
+let throw_card = (self) => {
+  s3.read_json().then((info) => {
+    let image = {
+      largeImageUrl: info.pc_image_url,
+      smallImageUrl: info.sp_image_url,
+    }
+    self.response.cardRenderer(info.name, info.description, image);
+  });
+}
